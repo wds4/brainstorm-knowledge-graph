@@ -12,11 +12,11 @@ const _nav = [
   },
   {
     component: CNavTitle,
-    name: 'Apps',
+    name: 'Workspaces',
   },
   {
     component: CNavItem,
-    name: 'App1 Settings',
+    name: 'Simple Lists Settings',
     to: '/settings/app1',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
   },

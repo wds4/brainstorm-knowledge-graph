@@ -16,11 +16,11 @@ const _nav = [
   },
   {
     component: CNavTitle,
-    name: 'Apps',
+    name: 'Workspaces',
   },
   {
     component: CNavGroup,
-    name: 'Apps',
+    name: 'Data Models',
     icon: <CIcon icon={cilApps} customClassName="nav-icon" />,
     items: [
       {

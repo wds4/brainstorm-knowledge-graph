@@ -25,7 +25,7 @@ const Dashboard = () => {
         </p>
       </CContainer>
       <center>
-        <h4>Apps</h4>
+        <h4>Workspaces</h4>
       </center>
       <CContainer>
         <CRow xs={{ gutter: 4 }}>
