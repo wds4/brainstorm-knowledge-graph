@@ -6,16 +6,6 @@ import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 const _nav = [
   {
     component: CNavTitle,
-    name: 'About',
-  },
-  {
-    component: CNavItem,
-    name: 'About',
-    to: '/about',
-    icon: <CIcon icon={cilInfo} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavTitle,
     name: 'Workspaces',
   },
   {
@@ -26,7 +16,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Simple Lists',
-        to: '/app1',
+        to: '/simpleLists',
       },
       {
         component: CNavItem,
@@ -39,6 +29,16 @@ const _nav = [
         to: '/app3',
       },
     ],
+  },
+  {
+    component: CNavTitle,
+    name: 'About',
+  },
+  {
+    component: CNavItem,
+    name: 'About',
+    to: '/about',
+    icon: <CIcon icon={cilInfo} customClassName="nav-icon" />,
   },
 ]
 

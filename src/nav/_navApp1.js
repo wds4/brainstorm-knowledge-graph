@@ -7,59 +7,59 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Simple Lists Home',
-    to: '/app1',
+    to: '/simpleLists',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,
-    name: 'Decentralized Lists',
+    name: 'Simple Lists',
   },
   {
     component: CNavItem,
     name: 'Lists (table)',
-    to: '/app1/viewLists',
+    to: '/simpleLists/viewLists',
     icon: <CIcon icon={cilPen} customClassName="nav-icon" />,
   },
   {
     component: CNavGroup,
     name: 'Explore Single List',
-    to: '/app1/list',
+    to: '/simpleLists/list',
     icon: <CIcon icon={cilListFilter} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
         name: 'View List Header',
-        to: '/app1/list/viewHeader',
+        to: '/simpleLists/list/viewHeader',
         icon: <CIcon icon={cilPen} customClassName="nav-icon" />,
       },
       {
         component: CNavItem,
         name: 'Edit List Header',
-        to: '/app1/list/editHeader',
+        to: '/simpleLists/list/editHeader',
         icon: <CIcon icon={cilPen} customClassName="nav-icon" />,
       },
       {
         component: CNavItem,
         name: 'View List Items (table)',
-        to: '/app1/list/items',
+        to: '/simpleLists/list/items',
         icon: <CIcon icon={cilPen} customClassName="nav-icon" />,
       },
       {
         component: CNavGroup,
         name: 'Explore List Item',
-        to: '/app1/list/items/item',
+        to: '/simpleLists/list/items/item',
         icon: <CIcon icon={cilListFilter} customClassName="nav-icon" />,
         items: [
           {
             component: CNavItem,
             name: 'View Item',
-            to: '/app1/list/items/item/viewItem',
+            to: '/simpleLists/list/items/item/viewItem',
             icon: <CIcon icon={cilPen} customClassName="nav-icon" />,
           },
           {
             component: CNavItem,
             name: 'Edit Item',
-            to: '/app1/list/items/item/editItem',
+            to: '/simpleLists/list/items/item/editItem',
             icon: <CIcon icon={cilPen} customClassName="nav-icon" />,
           },
         ]
@@ -67,7 +67,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Make New Item',
-        to: '/app1/createList',
+        to: '/simpleLists/createList',
         icon: <CIcon icon={cilPen} customClassName="nav-icon" />,
       },
     ],
@@ -75,7 +75,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Make New List',
-    to: '/app1/createList',
+    to: '/simpleLists/createList',
     icon: <CIcon icon={cilPen} customClassName="nav-icon" />,
   },
   {
@@ -85,7 +85,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'About',
-    to: '/app1/about',
+    to: '/simpleLists/about',
     icon: <CIcon icon={cilInfo} customClassName="nav-icon" />,
   },
 ]

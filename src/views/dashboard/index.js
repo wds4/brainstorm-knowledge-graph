@@ -35,7 +35,7 @@ const Dashboard = () => {
               className="mb-3 border-info"
               textColor="info"
             >
-              <CNavLink style={{ display: 'inline-block' }} href="#/app1">
+              <CNavLink style={{ display: 'inline-block' }} href="#/simpleLists">
                 <CCardHeader>
                   <strong>Simple Lists</strong>
                 </CCardHeader>

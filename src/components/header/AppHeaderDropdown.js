@@ -101,7 +101,7 @@ const ActiveHeaderDropdownLoggedIn = ({ activeUser }) => {
           Hello World
         </CDropdownItem>
         <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">Workspaces</CDropdownHeader>
-        <CDropdownItem href="#/app1">
+        <CDropdownItem href="#/simpleLists">
           <CIcon icon={cibWikipedia} className="me-2" />
           Simple Lists
         </CDropdownItem>

@@ -39,7 +39,7 @@ function getNavigation(currentLocation) {
       return navigationHelloWorld
     case 'settings':
       return navigationHSettings
-    case 'app1':
+    case 'simpleLists':
       if (depth > 3) {
         return navigationApp1_list
       } else {

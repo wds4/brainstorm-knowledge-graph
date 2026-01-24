@@ -17,7 +17,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Simple Lists Settings',
-    to: '/settings/app1',
+    to: '/settings/simpleLists',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
   },
   {
