@@ -8,19 +8,34 @@ import './scss/style.scss'
 import { useNostrHooks, useLogin, useAutoLogin } from 'nostr-hooks'
 import NDK from '@nostr-dev-kit/ndk'
 
+// import default parameters
+import defaultParameters from './views/settings/parameters/defaults.json'
+
 // Containers
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 
 // Pages
 const Login = React.lazy(() => import('./views/login/Login'))
 
+/*
 const explicitRelayUrls = [
   'wss://purplepag.es',
   'wss://profiles.nostr1.com',
   'wss://relay.damus.io',
   'wss://nostr21.com',
-  'wss://nip85.brainstorm.world'
+  'wss://dcosl.brainstorm.world'
 ]
+  */
+
+// extract relays from default parameters
+const aPopularGeneralPurposeRelays = defaultParameters.aRelays.aPopularGeneralPurposeRelays
+const aTrustedAssertionRelays = defaultParameters.aRelays.aTrustedAssertionRelays
+const aTrustedListRelays = defaultParameters.aRelays.aTrustedListRelays
+const aWotRelays = defaultParameters.aRelays.aWotRelays
+const aProfileRelays = defaultParameters.aRelays.aProfileRelays
+const aOutboxRelays = defaultParameters.aRelays.aOutboxRelays
+
+const explicitRelayUrls = [...aPopularGeneralPurposeRelays, ...aProfileRelays]
 
 export const customNDK = new NDK({ explicitRelayUrls })
 
