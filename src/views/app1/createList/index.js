@@ -1,6 +1,6 @@
 import React from 'react'
 
-const FeatureB = () => {
+const CreateList = () => {
   return (
     <>
       <center>
@@ -13,4 +13,4 @@ const FeatureB = () => {
   )
 }
 
-export default FeatureB
+export default CreateList

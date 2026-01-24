@@ -1,6 +1,6 @@
 import React from 'react'
 
-const FeatureA = () => {
+const ViewLists = () => {
   return (
     <>
       <center>
@@ -13,4 +13,4 @@ const FeatureA = () => {
   )
 }
 
-export default FeatureA
+export default ViewLists

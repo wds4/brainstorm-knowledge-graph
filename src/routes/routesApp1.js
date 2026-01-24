@@ -8,8 +8,8 @@ const About = React.lazy(() => import('src/views/app1/about/index'))
 
 // Features
 
-const FeatureA = React.lazy(() => import('src/views/app1/featureA/index'))
-const FeatureB = React.lazy(() => import('src/views/app1/featureB/index'))
+const ViewLists = React.lazy(() => import('src/views/app1/viewLists/index'))
+const CreateList = React.lazy(() => import('src/views/app1/createList/index'))
 const List = React.lazy(() => import('src/views/app1/list/index'))
 const ViewHeader = React.lazy(() => import('src/views/app1/list/viewHeader/index'))
 const Items = React.lazy(() => import('src/views/app1/list/items/index'))
@@ -27,8 +27,8 @@ const ViewTL = React.lazy(() => import('src/views/app1/list/curation/viewTrusted
 const routes = [
   { path: '/app1', name: 'Simple Lists', element: App1 },
   { path: '/app1/about', name: 'About', element: About },
-  { path: '/app1/featureA', name: 'View Lists', element: FeatureA },
-  { path: '/app1/featureB', name: 'Create List', element: FeatureB },
+  { path: '/app1/viewLists', name: 'View Lists', element: ViewLists },
+  { path: '/app1/createList', name: 'Create List', element: CreateList },
   { path: '/app1/list', name: 'List', element: List },
   { path: '/app1/list/viewHeader', name: 'List Header', element: ViewHeader },
   { path: '/app1/list/items', name: 'Items', element: Items },

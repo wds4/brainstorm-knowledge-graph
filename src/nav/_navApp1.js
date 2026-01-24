@@ -17,7 +17,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Lists (table)',
-    to: '/app1/featureA',
+    to: '/app1/viewLists',
     icon: <CIcon icon={cilListFilter} customClassName="nav-icon" />,
   },
   {
@@ -61,35 +61,14 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Make New Item',
-        to: '/app1/featureB',
-      },
-      {
-        component: CNavGroup,
-        name: 'Curation',
-        items: [
-          {
-            component: CNavItem,
-            name: 'View Curation',
-            to: '/app1/featureB',
-          },
-          {
-            component: CNavItem,
-            name: 'Edit Curation',
-            to: '/app1/featureB',
-          },
-          {
-            component: CNavItem,
-            name: 'Export Trusted List',
-            to: '/app1/featureB',
-          },
-        ]
+        to: '/app1/createList',
       },
     ],
   },
   {
     component: CNavItem,
     name: 'Make New List',
-    to: '/app1/featureB',
+    to: '/app1/createList',
     icon: <CIcon icon={cilListFilter} customClassName="nav-icon" />,
   },
   {
