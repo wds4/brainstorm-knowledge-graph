@@ -4,7 +4,7 @@ const Settings = () => {
   return (
     <>
       <center>
-        <h3>Settings Dashboard</h3>
+        <h3>Settings Dashboard (Vibe coded!)</h3>
       </center>
       <div>
         <p>Lorem ipsum</p>
