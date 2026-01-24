@@ -10,7 +10,7 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'About PGFT NRD',
+    name: 'About',
     to: '/about',
     icon: <CIcon icon={cilInfo} customClassName="nav-icon" />,
   },

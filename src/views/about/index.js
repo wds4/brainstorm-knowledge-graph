@@ -4,11 +4,12 @@ const About = () => {
   return (
     <>
       <center>
-        <h3>About the PGFT NRD Template</h3>
+        <h3>About the Brainstorm Knowledge Graph</h3>
       </center>
       <div>
-        <p>PGFT: Pretty Good Freedom Tech</p>
-        <p>NRD: nostr + react + dashboard</p>
+        <p>
+          This is an experimental implementation of the Decentralized Lists and related Custom NIP
+        </p>
       </div>
     </>
   )

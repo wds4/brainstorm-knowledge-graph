@@ -7,33 +7,21 @@ const Dashboard = () => {
   return (
     <>
       <center>
-        <h3>Nostr-React-Dashboard Template </h3>
+        <h3>Brainstorm Knowledge Graph</h3>
       </center>
       <br />
       <br />
       <CContainer>
         <p>
-          This template makes use of the{' '}
-          <a target="_blank" href="https://github.com/ostyjs/nostr-hooks" rel="noreferrer">
-            nostr-hooks
-          </a>{' '}
-          library for basic nostr functionality.
-        </p>
-        <p>
-          The dashboard / admin layout comes from{' '}
+          This app uses the{' '}
           <a
             target="_blank"
-            href="https://github.com/coreui/coreui-free-react-admin-template"
+            href="https://nostrhub.io/naddr1qvzqqqrcvypzpef89h53f0fsza2ugwdc3e54nfpun5nxfqclpy79r6w8nxsk5yp0qy28wumn8ghj7un9d3shjtnyv9kh2uewd9hsqymyv43k2mn5wfskc6t6v4jz6mrfwd68xnwasck"
             rel="noreferrer"
           >
-            CoreUI Free React.js Admin Template
-          </a>
-          , of which this is a fork.
-        </p>
-        <p>
-          For a demo of basic nostr-hooks functionality, follow the "Hello World" link in the
-          drop-down menu under the user avatar (you'll need to be logged in first).
-          <CButton href="#/helloWorld">Demo</CButton>
+            Decentralized Lists
+          </a>{' '}
+          and related family of Custom NIPs to create a knowledge graph that can be curated with the assistance of your trusted community.
         </p>
       </CContainer>
       <center>

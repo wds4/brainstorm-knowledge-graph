@@ -70,7 +70,7 @@ const AppSidebar = () => {
       <CSidebarHeader className="border-bottom">
         <CSidebarBrand href="#/dashboard" to="/" style={{ textDecoration: 'none' }}>
           <img src={iconSrc} style={{ height: '32px', marginLeft: '8px', marginRight: '10px' }} />
-          PGFT NRD Template
+          Knowledge Graph
         </CSidebarBrand>
         <CCloseButton
           className="d-lg-none"

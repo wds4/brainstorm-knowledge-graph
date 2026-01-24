@@ -123,7 +123,7 @@ const ActiveHeaderDropdownLoggedIn = ({ activeUser }) => {
           <CIcon icon={cilArrowThickFromLeft} className="me-2" />
           Logout
         </CDropdownItem>
-        <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">PGFT NRD</CDropdownHeader>
+        <CDropdownHeader className="bg-body-secondary fw-semibold mb-2">About</CDropdownHeader>
         <CDropdownItem href="#/about">
           <CIcon icon={cilInfo} className="me-2" />
           About
