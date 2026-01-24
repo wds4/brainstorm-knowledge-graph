@@ -13,7 +13,7 @@ const App3 = React.lazy(() => import('src/views/settings/app3/index'))
 
 const routes = [
   { path: '/settings', name: 'Settings', element: Settings },
-  { path: '/settings/app1', name: 'App 1', element: App1 },
+  { path: '/settings/app1', name: 'Simple Lists', element: App1 },
   { path: '/settings/app2', name: 'App 2', element: App2 },
   { path: '/settings/app3', name: 'App 3', element: App3 },
   { path: '/settings/developer', name: 'Developer', element: Developer },

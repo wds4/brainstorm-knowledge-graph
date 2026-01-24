@@ -37,7 +37,7 @@ const Dashboard = () => {
             >
               <CNavLink style={{ display: 'inline-block' }} href="#/app1">
                 <CCardHeader>
-                  <strong>App 1</strong>
+                  <strong>Simple Lists</strong>
                 </CCardHeader>
                 <CCardBody>
                   <CCardText>Lorem ipsum!</CCardText>

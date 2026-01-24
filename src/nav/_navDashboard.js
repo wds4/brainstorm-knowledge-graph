@@ -25,7 +25,7 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'App 1',
+        name: 'Simple Lists',
         to: '/app1',
       },
       {

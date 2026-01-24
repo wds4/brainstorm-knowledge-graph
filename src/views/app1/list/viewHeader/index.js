@@ -1,10 +1,10 @@
 import React from 'react'
 
-const FeatureB = () => {
+const ViewHeader = () => {
   return (
     <>
       <center>
-        <h3>Create New List</h3>
+        <h3>View List Header</h3>
       </center>
       <div>
         <p>Lorem ipsum</p>
@@ -13,4 +13,4 @@ const FeatureB = () => {
   )
 }
 
-export default FeatureB
+export default ViewHeader

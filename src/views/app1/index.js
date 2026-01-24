@@ -4,7 +4,7 @@ const AppDashboard = () => {
   return (
     <>
       <center>
-        <h3>App Dashboard</h3>
+        <h3>Simple Lists Dashboard</h3>
       </center>
       <div>
         <p>Lorem ipsum</p>

@@ -1,10 +1,10 @@
 import React from 'react'
 
-const FeatureB = () => {
+const ExportTrustedList = () => {
   return (
     <>
       <center>
-        <h3>Create New List</h3>
+        <h3>Export Trusted List</h3>
       </center>
       <div>
         <p>Lorem ipsum</p>
@@ -13,4 +13,4 @@ const FeatureB = () => {
   )
 }
 
-export default FeatureB
+export default ExportTrustedList

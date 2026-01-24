@@ -20,13 +20,16 @@ import navigationProfile from 'src/nav/_navProfile'
 import navigationDashboard from 'src/nav/_navDashboard'
 import navigationHSettings from 'src/nav/_navSettings'
 import navigationApp1 from 'src/nav/_navApp1'
+import navigationApp1_list from 'src/nav/_navApp1_list'
 import navigationApp2 from 'src/nav/_navApp2'
 import navigationApp3 from 'src/nav/_navApp3'
 
 // const iconSrc = 'src/assets/brand/brainstorm010_white.svg'
 const iconSrc = 'src/assets/brand/brainstorm010_white.svg'
 
-function getNavigation(activeApp, signedIn, developmentMode) {
+function getNavigation(currentLocation) {
+  const activeApp = currentLocation.split('/')[1]
+  const depth = currentLocation.split('/').length
   switch (activeApp) {
     case 'dashboard':
       return navigationDashboard
@@ -37,7 +40,11 @@ function getNavigation(activeApp, signedIn, developmentMode) {
     case 'settings':
       return navigationHSettings
     case 'app1':
-      return navigationApp1
+      if (depth > 3) {
+        return navigationApp1_list
+      } else {
+        return navigationApp1
+      }
     case 'app2':
       return navigationApp2
     case 'app3':
@@ -53,8 +60,7 @@ const AppSidebar = () => {
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
   const currentLocation = useLocation().pathname
-  const topLevelLocation = currentLocation.split('/')[1]
-  const navigation = getNavigation(topLevelLocation)
+  const navigation = getNavigation(currentLocation)
 
   return (
     <CSidebar

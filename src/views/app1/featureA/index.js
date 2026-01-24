@@ -4,10 +4,10 @@ const FeatureA = () => {
   return (
     <>
       <center>
-        <h3>Feature A</h3>
+        <h3>View Lists (Table)</h3>
       </center>
       <div>
-        <p>Lorem ipsum</p>
+        <p>toggle all versus mine</p>
       </div>
     </>
   )
