@@ -1,7 +1,6 @@
 import React from 'react'
-import { CButton, CContainer, CNavLink, CRow } from '@coreui/react'
-import { CCard, CCardBody, CCardHeader, CCardText, CCardTitle, CCol } from '@coreui/react'
-import { useDispatch, useSelector } from 'react-redux'
+import { CContainer, CNavLink, CRow } from '@coreui/react'
+import { CCard, CCardBody, CCardHeader, CCardText, CCol } from '@coreui/react'
 
 const Dashboard = () => {
   return (
@@ -21,7 +20,8 @@ const Dashboard = () => {
           >
             Decentralized Lists
           </a>{' '}
-          and related family of Custom NIPs to create a knowledge graph that can be curated with the assistance of your trusted community.
+          and related family of Custom NIPs to create a knowledge graph that can be curated with the
+          assistance of your trusted community.
         </p>
       </CContainer>
       <center>

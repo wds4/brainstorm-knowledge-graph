@@ -18,13 +18,13 @@ const AppFooter = () => {
       </div>
       <div className="ms-auto">
         <span className="ms-1">
-          &copy; 2024{' '}
+          &copy; 2026{' '}
           <a target="_blank" href="https://pgf.tech" rel="noreferrer">
             Pretty Good Freedom Tech
           </a>
         </span>{' '}
         <a
-          href="https://github.com/PrettyGoodFreedomTech"
+          href="https://github.com/wds4/brainstorm-knowledge-graph"
           target="_blank"
           rel="noopener noreferrer"
         >
