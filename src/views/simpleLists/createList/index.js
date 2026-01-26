@@ -273,7 +273,7 @@ const CreateList = () => {
   return (
     <CContainer style={{ padding: '20px', maxWidth: '800px' }}>
       <center>
-        <h2 style={{ marginBottom: '30px', color: '#333' }}>Create New List</h2>
+        <h2 style={{ marginBottom: '30px' }}>Create New List</h2>
       </center>
 
       <CForm>
