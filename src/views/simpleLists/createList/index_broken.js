@@ -28,7 +28,7 @@ const CreateList = () => {
   const [customDTag, setCustomDTag] = useState('')
   const [constraintTags, setConstraintTags] = useState([])
   const [showPreview, setShowPreview] = useState(false)
-  const [publishStartTime, setPublishStartTime] = useState(null)
+  const [publishedEventId, setPublishedEventId] = useState(null)
   const [isWaitingForVerification, setIsWaitingForVerification] = useState(false)
   const [verificationTimer, setVerificationTimer] = useState(0)
   const [eventVerified, setEventVerified] = useState(false)
@@ -38,11 +38,6 @@ const CreateList = () => {
   const { activeUser } = useActiveUser()
   const { signer } = useSigner()
   const { createNewEvent } = useNewEvent()
-
-  // Debug activeUser
-  useEffect(() => {
-    console.log('activeUser changed:', activeUser)
-  }, [activeUser])
 
   // Generate automatic d-tag
   const generateAutoDTag = (singular, plural, desc) => {
@@ -61,53 +56,26 @@ const CreateList = () => {
   // Get relay URLs from sessionStorage
   const aDListRelays = useMemo(() => {
     try {
-      const relays = JSON.parse(sessionStorage.getItem('aDListRelays') || '[]')
-      console.log('aDListRelays loaded:', relays)
-      return relays
+      return JSON.parse(sessionStorage.getItem('aDListRelays') || '[]')
     } catch {
-      console.log('aDListRelays failed to load, using empty array')
       return []
     }
   }, [])
 
-  // Calculate event kind directly from form state
-  const eventKind = isEditable ? 39998 : 9998
-
-  // Subscribe to verify published event using pubkey + kind + since
+  // Subscribe to verify published event
   const verificationFilter = useMemo(() => {
-    // Only create filter if we have all required data AND user is actually logged in
-    if (!publishStartTime || !activeUser?.pubkey || !isWaitingForVerification) {
-      console.log('verificationFilter: null - missing data:', {
-        publishStartTime,
-        pubkey: activeUser?.pubkey,
-        eventKind,
-        isWaitingForVerification,
-        activeUserFull: activeUser,
-      })
-      return null
+    if (!publishedEventId) return null
+    return {
+      ids: [publishedEventId],
+      limit: 1,
     }
+  }, [publishedEventId])
 
-    const filter = {
-      authors: [activeUser.pubkey],
-      kinds: [eventKind],
-      since: publishStartTime - 30, // 30 seconds before publish attempt
-      limit: 5, // Get a few recent events to be safe
-    }
-    console.log('verificationFilter created:', filter)
-    return filter
-  }, [publishStartTime, activeUser?.pubkey, eventKind, isWaitingForVerification])
-
-  const subscribeParams = useMemo(() => {
-    const params = {
-      filters: verificationFilter ? [verificationFilter] : [],
-      relays: aDListRelays,
-      enabled: !!publishStartTime && isWaitingForVerification,
-    }
-    console.log('useSubscribe params:', params)
-    return params
-  }, [verificationFilter, aDListRelays, publishStartTime, isWaitingForVerification])
-
-  const { events: verificationEvents } = useSubscribe(subscribeParams)
+  const { events: verificationEvents } = useSubscribe({
+    filters: verificationFilter ? [verificationFilter] : [],
+    relays: aDListRelays,
+    enabled: !!publishedEventId && isWaitingForVerification,
+  })
 
   // Timer effect for verification waiting
   useEffect(() => {
@@ -130,11 +98,7 @@ const CreateList = () => {
 
   // Check for event verification
   useEffect(() => {
-    console.log('Verification events received:', verificationEvents)
-    console.log('Is waiting for verification:', isWaitingForVerification)
-
     if (verificationEvents && verificationEvents.length > 0 && isWaitingForVerification) {
-      console.log('Event verified successfully!', verificationEvents[0])
       setEventVerified(true)
       setIsWaitingForVerification(false)
       setShowConfetti(true)
@@ -142,10 +106,8 @@ const CreateList = () => {
 
       // Hide confetti after 5 seconds
       setTimeout(() => setShowConfetti(false), 5000)
-    } else if (isWaitingForVerification) {
-      console.log('Still waiting for verification... Timer:', verificationTimer)
     }
-  }, [verificationEvents, isWaitingForVerification, verificationTimer])
+  }, [verificationEvents, isWaitingForVerification])
 
   const autoDTag = useMemo(() => {
     return generateAutoDTag(nameSingular, namePlural, description)
@@ -211,7 +173,7 @@ const CreateList = () => {
     setCustomDTag('')
     setConstraintTags([])
     setShowPreview(false)
-    setPublishStartTime(null)
+    setPublishedEventId(null)
     setIsWaitingForVerification(false)
     setVerificationTimer(0)
     setEventVerified(false)
@@ -223,30 +185,21 @@ const CreateList = () => {
   const publishNewList = () => {
     if (!isFormValid() || !previewEvent) return
 
-    // Check if user is logged in before publishing
-    if (!activeUser?.pubkey) {
-      console.error('Cannot publish: User not logged in or pubkey not available')
-      alert('Please make sure you are logged in before publishing a list.')
-      return
-    }
-
     const eventToPublish = createNewEvent()
     eventToPublish.kind = previewEvent.kind
     eventToPublish.tags = previewEvent.tags
     eventToPublish.content = previewEvent.content
 
-    // Record publish start time for verification
-    const publishTime = Math.floor(Date.now() / 1000)
-    console.log('Starting publish at timestamp:', publishTime, 'for user:', activeUser.pubkey)
-    setPublishStartTime(publishTime)
+    signer.sign(eventToPublish)
+    console.log('Publishing new list:', JSON.stringify(eventToPublish, null, 2))
+
+    // Start verification process
+    setPublishedEventId(eventToPublish.id)
     setIsWaitingForVerification(true)
     setVerificationTimer(0)
     setEventVerified(false)
     setVerificationFailed(false)
 
-    // Sign and publish the event
-    signer.sign(eventToPublish)
-    console.log('Publishing new list:', JSON.stringify(eventToPublish, null, 2))
     eventToPublish.publish()
   }
 
@@ -475,23 +428,10 @@ const CreateList = () => {
           >
             {showPreview ? 'Hide' : 'Preview'} Raw Event
           </CButton>
-          <CButton
-            color="primary"
-            disabled={!isFormValid() || !activeUser?.pubkey}
-            onClick={publishNewList}
-          >
+          <CButton color="primary" disabled={!isFormValid()} onClick={publishNewList}>
             Publish New List
           </CButton>
         </div>
-
-        {/* Login Required Message */}
-        {!activeUser?.pubkey && (
-          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-            <CAlert color="warning" style={{ display: 'inline-block', margin: '0 auto' }}>
-              <strong>⚠️ You must log in before publishing a new list.</strong>
-            </CAlert>
-          </div>
-        )}
 
         {/* Preview Raw Event */}
         {showPreview && previewEvent && (

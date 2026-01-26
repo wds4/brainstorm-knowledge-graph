@@ -1,6 +1,5 @@
-import React, { useState, useMemo, useEffect } from 'react'
-import { useActiveUser, useNewEvent, useSigner, useSubscribe } from 'nostr-hooks'
-import Confetti from 'react-confetti'
+import React, { useState, useMemo } from 'react'
+import { useActiveUser, useNewEvent, useSigner } from 'nostr-hooks'
 import {
   CButton,
   CContainer,
@@ -28,21 +27,10 @@ const CreateList = () => {
   const [customDTag, setCustomDTag] = useState('')
   const [constraintTags, setConstraintTags] = useState([])
   const [showPreview, setShowPreview] = useState(false)
-  const [publishStartTime, setPublishStartTime] = useState(null)
-  const [isWaitingForVerification, setIsWaitingForVerification] = useState(false)
-  const [verificationTimer, setVerificationTimer] = useState(0)
-  const [eventVerified, setEventVerified] = useState(false)
-  const [verificationFailed, setVerificationFailed] = useState(false)
-  const [showConfetti, setShowConfetti] = useState(false)
 
   const { activeUser } = useActiveUser()
   const { signer } = useSigner()
   const { createNewEvent } = useNewEvent()
-
-  // Debug activeUser
-  useEffect(() => {
-    console.log('activeUser changed:', activeUser)
-  }, [activeUser])
 
   // Generate automatic d-tag
   const generateAutoDTag = (singular, plural, desc) => {
@@ -57,95 +45,6 @@ const CreateList = () => {
     }
     return Math.abs(hash).toString(16).substring(0, 16)
   }
-
-  // Get relay URLs from sessionStorage
-  const aDListRelays = useMemo(() => {
-    try {
-      const relays = JSON.parse(sessionStorage.getItem('aDListRelays') || '[]')
-      console.log('aDListRelays loaded:', relays)
-      return relays
-    } catch {
-      console.log('aDListRelays failed to load, using empty array')
-      return []
-    }
-  }, [])
-
-  // Calculate event kind directly from form state
-  const eventKind = isEditable ? 39998 : 9998
-
-  // Subscribe to verify published event using pubkey + kind + since
-  const verificationFilter = useMemo(() => {
-    // Only create filter if we have all required data AND user is actually logged in
-    if (!publishStartTime || !activeUser?.pubkey || !isWaitingForVerification) {
-      console.log('verificationFilter: null - missing data:', {
-        publishStartTime,
-        pubkey: activeUser?.pubkey,
-        eventKind,
-        isWaitingForVerification,
-        activeUserFull: activeUser,
-      })
-      return null
-    }
-
-    const filter = {
-      authors: [activeUser.pubkey],
-      kinds: [eventKind],
-      since: publishStartTime - 30, // 30 seconds before publish attempt
-      limit: 5, // Get a few recent events to be safe
-    }
-    console.log('verificationFilter created:', filter)
-    return filter
-  }, [publishStartTime, activeUser?.pubkey, eventKind, isWaitingForVerification])
-
-  const subscribeParams = useMemo(() => {
-    const params = {
-      filters: verificationFilter ? [verificationFilter] : [],
-      relays: aDListRelays,
-      enabled: !!publishStartTime && isWaitingForVerification,
-    }
-    console.log('useSubscribe params:', params)
-    return params
-  }, [verificationFilter, aDListRelays, publishStartTime, isWaitingForVerification])
-
-  const { events: verificationEvents } = useSubscribe(subscribeParams)
-
-  // Timer effect for verification waiting
-  useEffect(() => {
-    let interval
-    if (isWaitingForVerification && !eventVerified) {
-      interval = setInterval(() => {
-        setVerificationTimer((prev) => {
-          const newTime = prev + 1
-          if (newTime >= 30) {
-            setIsWaitingForVerification(false)
-            setVerificationFailed(true)
-            return 0
-          }
-          return newTime
-        })
-      }, 1000)
-    }
-    return () => clearInterval(interval)
-  }, [isWaitingForVerification, eventVerified])
-
-  // Check for event verification
-  useEffect(() => {
-    console.log('Verification events received:', verificationEvents)
-    console.log('Is waiting for verification:', isWaitingForVerification)
-
-    if (verificationEvents && verificationEvents.length > 0 && isWaitingForVerification) {
-      console.log('Event verified successfully!', verificationEvents[0])
-      setEventVerified(true)
-      setIsWaitingForVerification(false)
-      setShowConfetti(true)
-      setVerificationTimer(0)
-
-      // Hide confetti after 5 seconds
-      setTimeout(() => setShowConfetti(false), 5000)
-    } else if (isWaitingForVerification) {
-      console.log('Still waiting for verification... Timer:', verificationTimer)
-    }
-  }, [verificationEvents, isWaitingForVerification, verificationTimer])
 
   const autoDTag = useMemo(() => {
     return generateAutoDTag(nameSingular, namePlural, description)
@@ -201,8 +100,20 @@ const CreateList = () => {
     return true
   }
 
-  // Reset form function
-  const resetForm = () => {
+  // Publish new list
+  const publishNewList = () => {
+    if (!isFormValid() || !previewEvent) return
+
+    const eventToPublish = createNewEvent()
+    eventToPublish.kind = previewEvent.kind
+    eventToPublish.tags = previewEvent.tags
+    eventToPublish.content = previewEvent.content
+
+    signer.sign(eventToPublish)
+    console.log('Publishing new list:', JSON.stringify(eventToPublish, null, 2))
+    eventToPublish.publish()
+
+    // Reset form after publishing
     setNameSingular('')
     setNamePlural('')
     setDescription('')
@@ -211,43 +122,6 @@ const CreateList = () => {
     setCustomDTag('')
     setConstraintTags([])
     setShowPreview(false)
-    setPublishStartTime(null)
-    setIsWaitingForVerification(false)
-    setVerificationTimer(0)
-    setEventVerified(false)
-    setVerificationFailed(false)
-    setShowConfetti(false)
-  }
-
-  // Publish new list
-  const publishNewList = () => {
-    if (!isFormValid() || !previewEvent) return
-
-    // Check if user is logged in before publishing
-    if (!activeUser?.pubkey) {
-      console.error('Cannot publish: User not logged in or pubkey not available')
-      alert('Please make sure you are logged in before publishing a list.')
-      return
-    }
-
-    const eventToPublish = createNewEvent()
-    eventToPublish.kind = previewEvent.kind
-    eventToPublish.tags = previewEvent.tags
-    eventToPublish.content = previewEvent.content
-
-    // Record publish start time for verification
-    const publishTime = Math.floor(Date.now() / 1000)
-    console.log('Starting publish at timestamp:', publishTime, 'for user:', activeUser.pubkey)
-    setPublishStartTime(publishTime)
-    setIsWaitingForVerification(true)
-    setVerificationTimer(0)
-    setEventVerified(false)
-    setVerificationFailed(false)
-
-    // Sign and publish the event
-    signer.sign(eventToPublish)
-    console.log('Publishing new list:', JSON.stringify(eventToPublish, null, 2))
-    eventToPublish.publish()
   }
 
   // Add constraint tag
@@ -475,23 +349,10 @@ const CreateList = () => {
           >
             {showPreview ? 'Hide' : 'Preview'} Raw Event
           </CButton>
-          <CButton
-            color="primary"
-            disabled={!isFormValid() || !activeUser?.pubkey}
-            onClick={publishNewList}
-          >
+          <CButton color="primary" disabled={!isFormValid()} onClick={publishNewList}>
             Publish New List
           </CButton>
         </div>
-
-        {/* Login Required Message */}
-        {!activeUser?.pubkey && (
-          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-            <CAlert color="warning" style={{ display: 'inline-block', margin: '0 auto' }}>
-              <strong>⚠️ You must log in before publishing a new list.</strong>
-            </CAlert>
-          </div>
-        )}
 
         {/* Preview Raw Event */}
         {showPreview && previewEvent && (
@@ -512,78 +373,7 @@ const CreateList = () => {
             </CCardBody>
           </CCard>
         )}
-
-        {/* Verification Status */}
-        {isWaitingForVerification && (
-          <CCard style={{ marginTop: '20px' }}>
-            <CCardBody style={{ textAlign: 'center' }}>
-              <CCardTitle>Waiting for Verification...</CCardTitle>
-              <p>We are waiting for confirmation that your event was published successfully.</p>
-              <p>
-                <strong>Time elapsed: {verificationTimer} seconds</strong>
-              </p>
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-            </CCardBody>
-          </CCard>
-        )}
-
-        {/* Success Message */}
-        {eventVerified && (
-          <CCard style={{ marginTop: '20px', borderColor: '#28a745' }}>
-            <CCardBody style={{ textAlign: 'center', backgroundColor: '#d4edda' }}>
-              <CCardTitle style={{ color: '#155724' }}>🎉 Success!</CCardTitle>
-              <p style={{ color: '#155724' }}>Your list has been published successfully!</p>
-              <p style={{ color: '#155724' }}>Ready to create a new list?</p>
-              <CButton color="success" onClick={resetForm}>
-                Yes, Create Another List
-              </CButton>
-            </CCardBody>
-          </CCard>
-        )}
-
-        {/* Verification Failed */}
-        {verificationFailed && (
-          <CCard style={{ marginTop: '20px', borderColor: '#dc3545' }}>
-            <CCardBody style={{ textAlign: 'center', backgroundColor: '#f8d7da' }}>
-              <CCardTitle style={{ color: '#721c24' }}>⚠️ Verification Timeout</CCardTitle>
-              <p style={{ color: '#721c24' }}>
-                We couldn&apos;t verify that your event was published within 30 seconds.
-              </p>
-              <p style={{ color: '#721c24' }}>
-                This doesn&apos;t necessarily mean it failed - it might just be taking longer than
-                expected.
-              </p>
-              <p style={{ color: '#721c24' }}>
-                You can check the main List Headers page to see if your list appears there.
-              </p>
-              <div style={{ marginTop: '15px' }}>
-                <CButton
-                  color="primary"
-                  onClick={() => (window.location.href = '#/simpleLists/viewLists')}
-                  style={{ marginRight: '10px' }}
-                >
-                  Go to List Headers
-                </CButton>
-                <CButton color="secondary" onClick={resetForm}>
-                  Try Creating Another List
-                </CButton>
-              </div>
-            </CCardBody>
-          </CCard>
-        )}
       </CForm>
-
-      {/* Confetti */}
-      {showConfetti && (
-        <Confetti
-          width={window.innerWidth}
-          height={window.innerHeight}
-          recycle={false}
-          numberOfPieces={200}
-        />
-      )}
     </CContainer>
   )
 }
