@@ -52,9 +52,7 @@ const ProfileCard = ({ pubkey }) => {
             />
           </CCol>
           <CCol style={{ paddingLeft: '15px' }}>
-            <h5 style={{ margin: '0', fontSize: '1.25rem', color: '#333' }}>
-              {profileDisplayName}
-            </h5>
+            <h5 style={{ margin: '0', fontSize: '1.25rem' }}>{profileDisplayName}</h5>
           </CCol>
         </CRow>
       </CCardBody>

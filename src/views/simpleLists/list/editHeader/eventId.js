@@ -5,6 +5,7 @@ const EventIdUUID = ({uuid}) => {
     <>
       <div>
         <p>EventId UUID: {uuid || 'Not provided'}</p>
+        <p>This is is not editable.</p>
       </div>
     </>
   )

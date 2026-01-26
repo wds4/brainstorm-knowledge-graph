@@ -110,7 +110,7 @@ const ATagUUID = ({ uuid = '' }) => {
   return (
     <CContainer style={{ padding: '20px' }}>
       <center>
-        <h2 style={{ marginBottom: '20px', color: '#333' }}>{namePlural}</h2>
+        <h2 style={{ marginBottom: '20px' }}>{namePlural}</h2>
       </center>
       <CRow>
         <ProfileCard pubkey={author} />
