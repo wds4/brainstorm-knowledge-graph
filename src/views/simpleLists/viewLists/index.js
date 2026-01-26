@@ -1,14 +1,13 @@
 import React from 'react'
+import ListsTable from './listsTable'
 
 const ViewLists = () => {
   return (
     <>
       <center>
-        <h3>View Lists (Table)</h3>
+        <h3>View List Headers</h3>
       </center>
-      <div>
-        <p>toggle all versus mine</p>
-      </div>
+      <ListsTable />
     </>
   )
 }

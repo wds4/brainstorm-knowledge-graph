@@ -1,10 +1,10 @@
 import React from 'react'
 
-const ViewItem = () => {
+const ExploreItem = () => {
   return (
     <>
       <center>
-        <h3>View List Item</h3>
+        <h3>Explore List Item</h3>
       </center>
       <div>
         <p>Lorem ipsum</p>
@@ -13,4 +13,4 @@ const ViewItem = () => {
   )
 }
 
-export default ViewItem
+export default ExploreItem

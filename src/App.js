@@ -29,13 +29,16 @@ const explicitRelayUrls = [
 
 // extract relays from default parameters
 const aPopularGeneralPurposeRelays = defaultParameters.aRelays.aPopularGeneralPurposeRelays
+const aDListRelays = defaultParameters.aRelays.aDListRelays
 const aTrustedAssertionRelays = defaultParameters.aRelays.aTrustedAssertionRelays
 const aTrustedListRelays = defaultParameters.aRelays.aTrustedListRelays
 const aWotRelays = defaultParameters.aRelays.aWotRelays
 const aProfileRelays = defaultParameters.aRelays.aProfileRelays
 const aOutboxRelays = defaultParameters.aRelays.aOutboxRelays
+const safeModeRelays = defaultParameters.aRelays.safeModeRelays
 
-const explicitRelayUrls = [...aPopularGeneralPurposeRelays, ...aProfileRelays]
+// const explicitRelayUrls = [...aPopularGeneralPurposeRelays, ...aProfileRelays, ...aDListRelays]
+const explicitRelayUrls = [...safeModeRelays]
 
 export const customNDK = new NDK({ explicitRelayUrls })
 

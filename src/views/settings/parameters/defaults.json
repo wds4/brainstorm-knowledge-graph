@@ -23,7 +23,8 @@
     "aTrustedAssertionRelays": ["wss://nip85.nostr.band", "wss://nip85.brainstorm.world", "wss://nip85.nostr1.com"],
     "aTrustedListRelays": ["wss://dcosl.brainstorm.world"],
     "aWotRelays": ["wss://wot.grapevine.network"],
-    "aProfileRelays": ["wss://purplepag.es", "profiles.nostr1.com"],
-    "aOutboxRelays": []
+    "aProfileRelays": ["wss://purplepag.es", "wss://profiles.nostr1.com"],
+    "aOutboxRelays": [],
+    "safeModeRelays": ["wss://dcosl.brainstorm.world", "wss://wot.grapevine.network"]
   }
 }

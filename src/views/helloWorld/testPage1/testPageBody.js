@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useMemo } from 'react'
 import { useSubscribe } from 'nostr-hooks'
 
@@ -43,8 +44,8 @@ const SubscribeToEvents_infiniteRerenderingHell = () => {
         <p>number of events: {events.length}</p>
         <p>Note the use of useMemo to prevent an infinite rerendering loop.</p>
         <p>
-          Look for "rerender SubscribeToEvents_memoization" in javascript console; it should rerender once for
-          each new event received.
+          Look for "rerender SubscribeToEvents_memoization&quot; in javascript console; it should
+          rerender once for each new event received.
         </p>
         <p>
           filters: <br />
@@ -88,8 +89,8 @@ const SubscribeToEvents_memoization = () => {
         <p>number of events: {events.length}</p>
         <p>Note the use of useMemo to prevent an infinite rerendering loop.</p>
         <p>
-          Look for "rerender SubscribeToEvents_memoization" in javascript console; it should rerender once for
-          each new event received.
+          Look for "rerender SubscribeToEvents_memoization" in javascript console; it should
+          rerender once for each new event received.
         </p>
         <p>
           filters: <br />
@@ -148,8 +149,8 @@ const SubscribeToEvents_parentChild = ({}) => {
       </center>
       <p>Note the use of parent - child components to prevent an infinite rerendering loop.</p>
       <p>
-        Look for "rerender SubscribeToEvents_parentChild" in javascript console; it should rerender once for
-        each new event received.
+        Look for "rerender SubscribeToEvents_parentChild" in javascript console; it should rerender
+        once for each new event received.
       </p>
       <p>
         filters: <br />
