@@ -24,6 +24,7 @@ const initializeAllParameters = () => {
     sessionStorage.setItem(key, JSON.stringify(defaults.aRelays[key]))
   })
   sessionStorage.setItem('neo4jCypherQueryUrl', defaults.neo4jCypherQueryUrl)
+  sessionStorage.setItem('trustScoreCutoff', defaults.trustScoreCutoff)
   sessionStorage.setItem('haveBKGParamsBeenInitialized', 'true')
 }
 
@@ -60,6 +61,8 @@ const Settings = () => {
     })
     values['neo4jCypherQueryUrl'] =
       sessionStorage.getItem('neo4jCypherQueryUrl') || defaults.neo4jCypherQueryUrl
+    values['trustScoreCutoff'] =
+      sessionStorage.getItem('trustScoreCutoff') || defaults.trustScoreCutoff
     setActiveValues(values)
   }
 
@@ -86,6 +89,9 @@ const Settings = () => {
     } else if (key === 'neo4jCypherQueryUrl') {
       sessionStorage.setItem(key, defaults.neo4jCypherQueryUrl)
       setActiveValues((prev) => ({ ...prev, [key]: defaults.neo4jCypherQueryUrl }))
+    } else if (key === 'trustScoreCutoff') {
+      sessionStorage.setItem(key, defaults.trustScoreCutoff)
+      setActiveValues((prev) => ({ ...prev, [key]: defaults.trustScoreCutoff }))
     }
   }
 
@@ -165,6 +171,44 @@ const Settings = () => {
                   color="warning"
                   size="sm"
                   onClick={() => handleRestore('neo4jCypherQueryUrl')}
+                >
+                  Restore
+                </CButton>
+              </CTableDataCell>
+            </CTableRow>
+            <CTableRow>
+              <CTableDataCell>trustScoreCutoff</CTableDataCell>
+              <CTableDataCell>Trust Score Cutoff (0-100)</CTableDataCell>
+              {showDefaultMisc && (
+                <CTableDataCell style={{ wordBreak: 'break-all', overflowWrap: 'anywhere' }}>
+                  {defaults.trustScoreCutoff}
+                </CTableDataCell>
+              )}
+              <CTableDataCell style={{ wordBreak: 'break-all', overflowWrap: 'anywhere' }}>
+                {editing.trustScoreCutoff ? (
+                  <input
+                    type="number"
+                    defaultValue={activeValues.trustScoreCutoff}
+                    onBlur={(e) => handleSave('trustScoreCutoff', e.target.value)}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      boxSizing: 'border-box',
+                      padding: '10px',
+                    }}
+                  />
+                ) : (
+                  activeValues.trustScoreCutoff
+                )}
+              </CTableDataCell>
+              <CTableDataCell>
+                <CButton color="secondary" size="sm" onClick={() => toggleEdit('trustScoreCutoff')}>
+                  {editing.trustScoreCutoff ? 'Save' : 'Edit'}
+                </CButton>
+                <CButton
+                  color="warning"
+                  size="sm"
+                  onClick={() => handleRestore('trustScoreCutoff')}
                 >
                   Restore
                 </CButton>

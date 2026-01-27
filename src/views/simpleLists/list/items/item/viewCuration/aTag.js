@@ -22,7 +22,7 @@ const parseName = (tags) => {
   return aName ? aName[1] : ''
 }
 
-const ATagUUID = ({ uuid }) => {
+const ATagUUID = ({ uuid, uuidType }) => {
   const [kind, author, dTag_from_uuid] = uuid ? uuid.split(':') : ['', '', '']
 
   // Create filter based on aTag parameters
@@ -61,7 +61,7 @@ const ATagUUID = ({ uuid }) => {
       <center>
         <h2 style={{ marginBottom: '20px' }}>{name}</h2>
       </center>
-      <ViewCuration event={event} uuid={uuid} />
+      <ViewCuration event={event} uuid={uuid} uuidType={uuidType} />
     </CContainer>
   )
 }

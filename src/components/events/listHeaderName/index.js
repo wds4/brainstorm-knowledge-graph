@@ -13,7 +13,7 @@ const Disambiguation = ({ uuidType, uuid }) => {
         <ATagUUID uuid={uuid} />
       </>
     )
-  if (uuidType === 'event id') return <EventIdUUID uuid={uuid} />
+  if (uuidType === 'eventId') return <EventIdUUID uuid={uuid} />
   return <>Unknown UUID Type: {uuidType}</>
 }
 

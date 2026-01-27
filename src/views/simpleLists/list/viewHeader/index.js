@@ -9,7 +9,7 @@ const Disambiguation = ({ uuidType, uuid }) => {
   if (uuidType === 'invalid') return <p>Invalid UUID</p>
   if (uuidType === 'naddr') return <NaddrUUID uuid={uuid} />
   if (uuidType === 'aTag') return <ATagUUID uuid={uuid} />
-  if (uuidType === 'event id') return <EventIdUUID uuid={uuid} />
+  if (uuidType === 'eventId') return <EventIdUUID uuid={uuid} />
   return <p>Unknown UUID Type: {uuidType}</p>
 }
 

@@ -42,6 +42,22 @@ export const validateUUID = (uuid) => {
         return { uuid, uuidType: 'invalid', valid: false, error: 'pubkey is not valid' }
       }
     }
+
+    // check if uuid is an event id
+    if (parts.length === 1) {
+      // make sure event id is a valid hex string
+      if (!/^[0-9a-fA-F]{64}$/.test(parts[0])) {
+        return {
+          uuid,
+          uuidType: 'invalid',
+          valid: false,
+          error: 'event id is not a valid hex string',
+        }
+      }
+      return { uuid, uuidType: 'eventId', valid: true, error: '' }
+    }
+
+    // TODO: check if uuid is naddr
   }
 
   return { uuid, uuidType: 'unknown', valid: false, error: 'unknown error' }

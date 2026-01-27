@@ -7,9 +7,9 @@ import ATagUUID from './aTag'
 
 const Disambiguation = ({ uuidType, uuid }) => {
   if (uuidType === 'invalid') return <p>Invalid UUID</p>
-  if (uuidType === 'naddr') return <NaddrUUID uuid={uuid} />
-  if (uuidType === 'aTag') return <ATagUUID uuid={uuid} />
-  if (uuidType === 'event id') return <EventIdUUID uuid={uuid} />
+  if (uuidType === 'naddr') return <NaddrUUID uuid={uuid} uuidType={uuidType} />
+  if (uuidType === 'aTag') return <ATagUUID uuid={uuid} uuidType={uuidType} />
+  if (uuidType === 'eventId') return <EventIdUUID uuid={uuid} uuidType={uuidType} />
   return <p>Unknown UUID Type: {uuidType}</p>
 }
 
