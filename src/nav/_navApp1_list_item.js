@@ -6,35 +6,31 @@ import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 const _nav = [
   {
     component: CNavItem,
-    name: 'Simple Lists Home',
-    to: '/simpleLists',
+    name: 'Simple List Home',
+    to: '/simpleLists/list',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
   },
   {
     component: CNavTitle,
-    name: 'Simple Lists',
+    name: 'List Item',
   },
   {
     component: CNavItem,
-    name: 'Lists (table)',
-    to: '/simpleLists/viewLists',
+    name: 'View Item',
+    to: '/simpleLists/list/items/item/viewItem',
     icon: <CIcon icon={cilPen} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
-    name: 'Make New List',
-    to: '/simpleLists/createList',
+    name: 'View Curation',
+    to: '/simpleLists/list/items/item/viewCuration',
     icon: <CIcon icon={cilPen} customClassName="nav-icon" />,
   },
   {
-    component: CNavTitle,
-    name: 'About',
-  },
-  {
     component: CNavItem,
-    name: 'About',
-    to: '/simpleLists/about',
-    icon: <CIcon icon={cilInfo} customClassName="nav-icon" />,
+    name: 'Edit Item',
+    to: '/simpleLists/list/items/item/editItem',
+    icon: <CIcon icon={cilPen} customClassName="nav-icon" />,
   },
 ]
 

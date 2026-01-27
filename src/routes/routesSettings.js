@@ -6,6 +6,9 @@ const Settings = React.lazy(() => import('src/views/settings/index'))
 // Developer Settings
 const Developer = React.lazy(() => import('src/views/settings/developer/index'))
 
+// Trusted Assertions Settings
+const TrustedAssertions = React.lazy(() => import('src/views/settings/trustedAssertions/index'))
+
 // App Settings
 const App1 = React.lazy(() => import('src/views/settings/simpleLists/index'))
 const App2 = React.lazy(() => import('src/views/settings/app2/index'))
@@ -16,6 +19,7 @@ const routes = [
   { path: '/settings/simpleLists', name: 'Simple Lists', element: App1 },
   { path: '/settings/app2', name: 'App 2', element: App2 },
   { path: '/settings/app3', name: 'App 3', element: App3 },
+  { path: '/settings/trustedAssertions', name: 'Trusted Assertions', element: TrustedAssertions },
   { path: '/settings/developer', name: 'Developer', element: Developer },
 ]
 

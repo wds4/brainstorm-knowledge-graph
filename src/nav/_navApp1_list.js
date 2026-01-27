@@ -1,6 +1,6 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
-import { cilInfo, cilListFilter, cilPen, cilSpeedometer } from '@coreui/icons'
+import { cilListFilter, cilPen, cilSpeedometer } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
 
 const _nav = [
@@ -33,26 +33,6 @@ const _nav = [
     icon: <CIcon icon={cilPen} customClassName="nav-icon" />,
   },
   {
-    component: CNavGroup,
-    name: 'Explore List Item',
-    to: '/simpleLists/list/items/item',
-    icon: <CIcon icon={cilListFilter} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'View Item',
-        to: '/simpleLists/list/items/item/viewItem',
-        icon: <CIcon icon={cilPen} customClassName="nav-icon" />,
-      },
-      {
-        component: CNavItem,
-        name: 'Edit Item',
-        to: '/simpleLists/list/items/item/editItem',
-        icon: <CIcon icon={cilPen} customClassName="nav-icon" />,
-      },
-    ]
-  },
-  {
     component: CNavItem,
     name: 'Make New Item',
     to: '/simpleLists/list/createItem',
@@ -82,7 +62,7 @@ const _nav = [
         to: '/simpleLists/list/curation/exportTrustedList',
         icon: <CIcon icon={cilPen} customClassName="nav-icon" />,
       },
-    ]
+    ],
   },
 ]
 

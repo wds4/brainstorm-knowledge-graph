@@ -21,6 +21,8 @@ import navigationDashboard from 'src/nav/_navDashboard'
 import navigationHSettings from 'src/nav/_navSettings'
 import navigationApp1 from 'src/nav/_navApp1'
 import navigationApp1_list from 'src/nav/_navApp1_list'
+import navigationApp1_list_item from 'src/nav/_navApp1_list_item'
+import navigationApp1_list_curation from 'src/nav/_navApp1_list_curation'
 import navigationApp2 from 'src/nav/_navApp2'
 import navigationApp3 from 'src/nav/_navApp3'
 
@@ -29,7 +31,9 @@ const iconSrc = 'src/assets/brand/brainstorm010_white.svg'
 
 function getNavigation(currentLocation) {
   const activeApp = currentLocation.split('/')[1]
-  const depth = currentLocation.split('/').length
+  const currentLocationPieces = currentLocation.split('/')
+  const depth = currentLocationPieces.length
+  console.log(`Active App: ${activeApp}, Depth: ${depth}, Current Location: ${currentLocation}`)
   switch (activeApp) {
     case 'dashboard':
       return navigationDashboard
@@ -40,7 +44,15 @@ function getNavigation(currentLocation) {
     case 'settings':
       return navigationHSettings
     case 'simpleLists':
+      if (depth == 6) {
+        if (currentLocationPieces[4] === 'item') {
+          return navigationApp1_list_item
+        }
+      }
       if (depth > 3) {
+        if (currentLocationPieces[3] === 'curation') {
+          return navigationApp1_list_curation
+        }
         return navigationApp1_list
       } else {
         return navigationApp1

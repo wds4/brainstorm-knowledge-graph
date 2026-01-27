@@ -1,20 +1,19 @@
-import { useSubscribe } from 'nostr-hooks'
-import React, { useMemo, useState, useEffect } from 'react'
+import React from 'react'
 import { validateUUID } from 'src/lib/nip19'
 import ATagUUID from './aTag'
-
-const aDListRelays = JSON.parse(sessionStorage.getItem('aDListRelays') || '[]')
+import NaddrUUID from './naddr'
+import EventIdUUID from './eventId'
 
 const Disambiguation = ({ uuidType, uuid }) => {
   if (uuidType === 'invalid') return <>Invalid UUID</>
-  // if (uuidType === 'naddr') return <NaddrUUID uuid={uuid} />
+  if (uuidType === 'naddr') return <NaddrUUID uuid={uuid} />
   if (uuidType === 'aTag')
     return (
       <>
         <ATagUUID uuid={uuid} />
       </>
     )
-  // if (uuidType === 'event id') return <EventIdUUID uuid={uuid} />
+  if (uuidType === 'event id') return <EventIdUUID uuid={uuid} />
   return <>Unknown UUID Type: {uuidType}</>
 }
 

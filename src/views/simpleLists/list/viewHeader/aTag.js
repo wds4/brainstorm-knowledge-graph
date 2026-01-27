@@ -115,6 +115,35 @@ const ATagUUID = ({ uuid = '' }) => {
       <CRow>
         <ProfileCard pubkey={author} />
       </CRow>
+      <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+        <CButton color="primary" size="sm" style={{}} href={`#/simpleLists/list/editHeader`}>
+          Clone or Edit
+        </CButton>
+        <CButton
+          color="primary"
+          size="sm"
+          style={{ marginLeft: '10px' }}
+          href={`#/structuredLists/list/viewHeader`}
+        >
+          Manage Tree Structure
+        </CButton>
+        <CButton
+          color="primary"
+          size="sm"
+          style={{ marginLeft: '10px' }}
+          href={`#/objectOrientedLists/list/viewHeader`}
+        >
+          Manage Properties
+        </CButton>
+        <CButton
+          color="primary"
+          size="sm"
+          style={{ marginLeft: '10px' }}
+          href={`#/simpleLists/list/curation`}
+        >
+          Manage Trusted Lists
+        </CButton>
+      </div>
       <CRow>
         <CCard
           style={{
@@ -144,7 +173,7 @@ const ATagUUID = ({ uuid = '' }) => {
               <p>
                 <strong>Num Items:</strong> <NumItemsOnList zTag={uuid} />
                 <CButton
-                  color="secondary"
+                  color="primary"
                   size="sm"
                   style={{ marginLeft: '10px' }}
                   href={`#/simpleLists/list/items?uuid=${uuid}`}
@@ -156,7 +185,7 @@ const ATagUUID = ({ uuid = '' }) => {
           </CCardBody>
         </CCard>
       </CRow>
-      <div style={{ marginTop: '20px', textAlign: 'center' }}>
+      <div style={{ textAlign: 'center' }}>
         <CButton
           color="secondary"
           size="sm"

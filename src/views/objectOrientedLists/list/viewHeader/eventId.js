@@ -1,6 +1,6 @@
 import React from 'react'
 
-const EventIdUUID = ({ uuid }) => {
+const EventIdUUID = ({uuid}) => {
   return (
     <>
       <div>

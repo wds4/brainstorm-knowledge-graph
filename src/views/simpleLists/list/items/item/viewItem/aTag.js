@@ -130,7 +130,7 @@ const ATagUUID = ({ uuid }) => {
   return (
     <CContainer style={{ padding: '20px' }}>
       <center>
-        <h2 style={{ marginBottom: '20px', color: '#333' }}>{name}</h2>
+        <h2 style={{ marginBottom: '20px' }}>{name}</h2>
       </center>
       <div style={{ marginBottom: '20px' }}>
         An item on the list of
@@ -159,6 +159,17 @@ const ATagUUID = ({ uuid }) => {
           <p>
             <strong>When Created (or Last Updated):</strong> {timeAgo}
           </p>
+        </CCard>
+      </CRow>
+      <CRow>
+        <CCard
+          style={{
+            marginBottom: '20px',
+            border: 'none',
+            boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+          }}
+        >
+          Count likes and dislikes
         </CCard>
       </CRow>
       <div style={{ marginTop: '20px', textAlign: 'center' }}>

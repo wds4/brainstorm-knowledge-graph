@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AppDashboard = () => {
+const SimpleListsDashboard = () => {
   return (
     <>
       <center>
@@ -16,4 +16,4 @@ const AppDashboard = () => {
   )
 }
 
-export default AppDashboard
+export default SimpleListsDashboard

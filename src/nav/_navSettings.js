@@ -38,6 +38,12 @@ const _nav = [
   },
   {
     component: CNavItem,
+    name: 'Trusted Assertions',
+    to: '/settings/trustedAssertions',
+    icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
     name: 'Developer',
     to: '/settings/developer',
     icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,

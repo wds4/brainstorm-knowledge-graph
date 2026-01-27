@@ -9,6 +9,8 @@ import {
   CTableBody,
   CTableDataCell,
   CButton,
+  CFormInput,
+  CFormLabel,
 } from '@coreui/react'
 
 import { asyncFetchProfile } from 'src/helpers/ndk'
@@ -21,6 +23,7 @@ const aDListRelays = JSON.parse(sessionStorage.getItem('aDListRelays') || '[]')
 const ListsTable = () => {
   const [showMyListsOnly, setShowMyListsOnly] = useState(false)
   const [kindFilter, setKindFilter] = useState('all') // 'all', 'editable', 'notEditable'
+  const [searchKeyword, setSearchKeyword] = useState('')
   const { activeUser } = useActiveUser()
 
   // useMemo prevents rerendering hell
@@ -43,7 +46,42 @@ const ListsTable = () => {
   }
 
   const { events } = useSubscribe({ filters, relays: aDListRelays })
-  console.log('rerender ViewLists; events.length: ' + events.length)
+
+  // Filter events based on whether they are authored by the user
+  const userFilteredEvents = useMemo(() => {
+    if (!events || events.length === 0) return []
+    return showMyListsOnly && activeUser
+      ? events.filter((event) => event.pubkey === activeUser.pubkey)
+      : events
+  }, [events, showMyListsOnly, activeUser])
+
+  // Further filter based on kind
+  const kindFilteredEvents = useMemo(() => {
+    if (kindFilter === 'editable') {
+      return userFilteredEvents.filter((event) => event.kind === 39998)
+    }
+    if (kindFilter === 'notEditable') {
+      return userFilteredEvents.filter((event) => event.kind === 9998)
+    }
+    return userFilteredEvents
+  }, [userFilteredEvents, kindFilter])
+
+  // Filter by search keyword (name or description)
+  const filteredEvents = useMemo(() => {
+    if (!searchKeyword.trim()) {
+      return kindFilteredEvents
+    }
+
+    const keyword = searchKeyword.toLowerCase().trim()
+    return kindFilteredEvents.filter((event) => {
+      const namePlural = parseNamePlural(event.tags).toLowerCase()
+      const description = parseDescription(event.tags).toLowerCase()
+      return namePlural.includes(keyword) || description.includes(keyword)
+    })
+  }, [kindFilteredEvents, searchKeyword])
+
+  console.log('rerender ViewLists; events.length: ' + (events?.length || 0))
+
   if (!events || events.length === 0) {
     return (
       <>
@@ -53,20 +91,6 @@ const ListsTable = () => {
       </>
     )
   }
-
-  // Filter events based on whether they are authored by the user
-  const userFilteredEvents =
-    showMyListsOnly && activeUser
-      ? events.filter((event) => event.pubkey === activeUser.pubkey)
-      : events
-
-  // Further filter based on kind
-  const filteredEvents =
-    kindFilter === 'editable'
-      ? userFilteredEvents.filter((event) => event.kind === 39998)
-      : kindFilter === 'notEditable'
-        ? userFilteredEvents.filter((event) => event.kind === 9998)
-        : userFilteredEvents
 
   const toggleKindFilter = () => {
     setKindFilter((prev) => {
@@ -96,7 +120,7 @@ const ListsTable = () => {
         </CButton>
         {activeUser && (
           <CButton
-            color="info"
+            color="secondary"
             size="sm"
             style={{ marginBottom: '10px' }}
             onClick={() => setShowMyListsOnly(!showMyListsOnly)}
@@ -104,6 +128,22 @@ const ListsTable = () => {
             {showMyListsOnly ? 'My Lists' : 'All Authors'}
           </CButton>
         )}
+
+        {/* Search Field */}
+        <div style={{ marginBottom: '15px', marginTop: '10px' }}>
+          <CFormLabel htmlFor="searchKeyword" style={{ marginBottom: '10px', fontWeight: 'bold' }}>
+            Filter by Name or Description:
+          </CFormLabel>
+          <CFormInput
+            id="searchKeyword"
+            type="text"
+            placeholder="Enter keyword to search..."
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            style={{ maxWidth: '400px' }}
+          />
+        </div>
+
         <p>number of events: {filteredEvents.length}</p>
         <CTable striped hover style={{ width: '100%', tableLayout: 'fixed' }}>
           <CTableHead>

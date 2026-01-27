@@ -41,6 +41,9 @@ const ProfileCard = ({ pubkey }) => {
         style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', padding: '0' }}
       >
         <CRow style={{ width: '100%', alignItems: 'center' }}>
+          <CCol style={{ paddingLeft: '30px' }}>
+            <h5 style={{ margin: '0', fontSize: '1.25rem' }}>Author: </h5>
+          </CCol>
           <CCol xs="auto" style={{ paddingRight: '0' }}>
             <CAvatar
               style={{
@@ -52,7 +55,7 @@ const ProfileCard = ({ pubkey }) => {
             />
           </CCol>
           <CCol style={{ paddingLeft: '15px' }}>
-            <h5 style={{ margin: '0', fontSize: '1.25rem' }}>{profileDisplayName}</h5>
+            <h3 style={{ margin: '0', fontSize: '2rem' }}>{profileDisplayName}</h3>
           </CCol>
         </CRow>
       </CCardBody>

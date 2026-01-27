@@ -83,12 +83,12 @@ const TableOfItems = ({ zTag = '' }) => {
   return (
     <CContainer style={{ padding: '20px' }}>
       <CButton
-        color="secondary"
+        color="primary"
         size="sm"
         style={{ marginBottom: '10px' }}
         href={`#/simpleLists/list/viewHeader`}
       >
-        List Header
+        List Header: Overview
       </CButton>
       <p>Events: {events.length}</p>
       <CTable striped hover style={{ width: '100%', tableLayout: 'fixed' }}>

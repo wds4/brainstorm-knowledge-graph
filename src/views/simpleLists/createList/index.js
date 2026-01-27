@@ -362,8 +362,8 @@ const CreateList = () => {
                   <CFormLabel>Generated D Tag:</CFormLabel>
                   <CFormInput value={autoDTag} readOnly />
                   <small className="text-muted">
-                    This tag is automatically generated based on your input fields and will update as you
-                    type.
+                    This tag is automatically generated based on your input fields and will update
+                    as you type.
                   </small>
                 </div>
               )}
@@ -397,7 +397,9 @@ const CreateList = () => {
         <CCard style={{ marginBottom: '20px' }}>
           <CCardBody>
             <CCardTitle>Constraint Tags (Optional)</CCardTitle>
-            <p className="text-muted">Define what information is expected in list item events.</p>
+            <p className="text-muted">
+              Define what information is expected in the tags of list item events.
+            </p>
 
             {constraintTags.map((tag, index) => (
               <CRow key={index} className="mb-3 align-items-end">

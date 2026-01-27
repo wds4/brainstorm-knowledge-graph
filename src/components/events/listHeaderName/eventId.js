@@ -2,8 +2,6 @@ import React, { useMemo } from 'react'
 import { useSubscribe } from 'nostr-hooks'
 import { CButton } from '@coreui/react'
 
-const aDListRelays = JSON.parse(sessionStorage.getItem('aDListRelays') || '[]')
-
 // parse tags
 
 const parseNamePlural = (tags) => {
@@ -11,14 +9,9 @@ const parseNamePlural = (tags) => {
   return aNames ? aNames[2] : ''
 }
 
-const ATagUUID = ({ uuid = '' }) => {
-  const [kind, author, dTag_from_uuid] = uuid ? uuid.split(':') : ['', '', '']
-
+const EventIdUUID = ({ uuid }) => {
   // Create filter based on aTag parameters
-  const filter =
-    kind && author && dTag_from_uuid
-      ? [{ kinds: [parseInt(kind)], authors: [author], '#d': [dTag_from_uuid] }]
-      : []
+  const filter = uuid ? [{ ids: [uuid] }] : []
 
   const filters = useMemo(() => filter, [])
   const { events } = useSubscribe({ filters, relays: aDListRelays })
@@ -51,4 +44,4 @@ const ATagUUID = ({ uuid = '' }) => {
   )
 }
 
-export default ATagUUID
+export default EventIdUUID
