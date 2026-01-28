@@ -33,7 +33,7 @@ function getNavigation(currentLocation) {
   const activeApp = currentLocation.split('/')[1]
   const currentLocationPieces = currentLocation.split('/')
   const depth = currentLocationPieces.length
-  console.log(`Active App: ${activeApp}, Depth: ${depth}, Current Location: ${currentLocation}`)
+  // console.log(`Active App: ${activeApp}, Depth: ${depth}, Current Location: ${currentLocation}`)
   switch (activeApp) {
     case 'dashboard':
       return navigationDashboard

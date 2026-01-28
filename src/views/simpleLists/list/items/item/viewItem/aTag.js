@@ -13,6 +13,7 @@ import {
 import ProfileCard from 'src/components/users/profileCard.js'
 import { getTimeAgo } from '../../../../../../lib'
 import ListHeaderName from '../../../../../../components/events/listHeaderName/index.js'
+import SingleItemCurationsScorePanel from '../../../../../../components/events/singleItemCurationScorePanel/index.js'
 
 const aDListRelays = JSON.parse(sessionStorage.getItem('aDListRelays') || '[]')
 // const customNDK = new NDK({ explicitRelayUrls: aDListRelays })
@@ -74,12 +75,11 @@ const PublishUpdatedEvent = ({ strippedEvent, isEditableByMe }) => {
   )
 }
 
-const ATagUUID = ({ uuid }) => {
+const ATagUUID = ({ activeUser, uuid }) => {
   const [kind, author, dTag_from_uuid] = uuid ? uuid.split(':') : ['', '', '']
   const [showEvent, setShowEvent] = useState(false)
   const [showMetadata, setShowMetadata] = useState(false)
   const [showEditRawEvent, setShowEditRawEvent] = useState(false)
-  const { activeUser } = useActiveUser()
 
   // Create filter based on aTag parameters
   const filter =
@@ -169,7 +169,12 @@ const ATagUUID = ({ uuid }) => {
             boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
           }}
         >
-          Count likes and dislikes
+          <SingleItemCurationsScorePanel
+            activeUser={activeUser}
+            event={event}
+            uuidType="aTag"
+            uuid={zTag_from_event}
+          />
         </CCard>
       </CRow>
       <div style={{ marginTop: '20px', textAlign: 'center' }}>

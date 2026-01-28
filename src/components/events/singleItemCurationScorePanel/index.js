@@ -1,20 +1,10 @@
 import React, { useMemo, useState, useEffect, useRef, useCallback } from 'react'
 import { useSubscribe } from 'nostr-hooks'
 import { SimplePool } from 'nostr-tools'
-import {
-  CCard,
-  CCardBody,
-  CTable,
-  CTableHead,
-  CTableBody,
-  CTableRow,
-  CTableHeaderCell,
-  CTableDataCell,
-  CAlert,
-} from '@coreui/react'
+import { CRow, CCol } from '@coreui/react'
 import defaults from 'src/views/settings/parameters/defaults.json'
 
-const ViewCuration = ({ activeUser, event, uuid, uuidType }) => {
+const SingleItemCurationsScorePanel = ({ activeUser, event, uuid = '', uuidType = '' }) => {
   // ============ STEP 1: Static Configuration ============
 
   // Get relays from SessionStorage (computed once)
@@ -34,6 +24,27 @@ const ViewCuration = ({ activeUser, event, uuid, uuidType }) => {
       return isNaN(parsed) ? defaults.trustScoreCutoff : parsed
     }
     return defaults.trustScoreCutoff
+  }, [])
+
+  // Get NIP-85 settings
+  const rankNip85Relay = useMemo(() => {
+    const stored = sessionStorage.getItem('rank_nip85_relay')
+    if (
+      stored &&
+      stored !== 'null' &&
+      (stored.startsWith('wss://') || stored.startsWith('ws://'))
+    ) {
+      return stored
+    }
+    return null
+  }, [])
+
+  const rankTrustedServiceProviderPubkey = useMemo(() => {
+    const stored = sessionStorage.getItem('rank_trusted_service_provider_pubkey')
+    if (stored && stored !== 'null') {
+      return stored
+    }
+    return null
   }, [])
 
   // ============ STEP 2: Fetch Reactions ============
@@ -87,27 +98,6 @@ const ViewCuration = ({ activeUser, event, uuid, uuidType }) => {
 
   // Ref to prevent multiple simultaneous fetches
   const isFetchingRef = useRef(false)
-
-  // Get NIP-85 settings
-  const rankNip85Relay = useMemo(() => {
-    const stored = sessionStorage.getItem('rank_nip85_relay')
-    if (
-      stored &&
-      stored !== 'null' &&
-      (stored.startsWith('wss://') || stored.startsWith('ws://'))
-    ) {
-      return stored
-    }
-    return null
-  }, [])
-
-  const rankTrustedServiceProviderPubkey = useMemo(() => {
-    const stored = sessionStorage.getItem('rank_trusted_service_provider_pubkey')
-    if (stored && stored !== 'null') {
-      return stored
-    }
-    return null
-  }, [])
 
   // Helper to get Trust Score from SessionStorage
   const getTrustScoreFromStorage = useCallback(
@@ -246,38 +236,19 @@ const ViewCuration = ({ activeUser, event, uuid, uuidType }) => {
     [activeUser?.pubkey, fetchedScores, getTrustScoreFromStorage],
   )
 
-  // Helper to format time ago
-  const getTimeAgoString = (timestamp) => {
-    if (!timestamp) return 'Unknown'
-    const now = Math.floor(Date.now() / 1000)
-    const diff = now - timestamp
-    const minutes = Math.floor(diff / 60)
-    const hours = Math.floor(minutes / 60)
-    const days = Math.floor(hours / 24)
+  // ============ STEP 5: Calculate Final Score ============
 
-    if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`
-    if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`
-    if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`
-    return `${diff} second${diff !== 1 ? 's' : ''} ago`
-  }
-
-  // Truncate pubkey for display
-  const truncatePubkey = (pk) => {
-    if (!pk) return 'Unknown'
-    if (pk.length <= 16) return pk
-    return `${pk.slice(0, 8)}...${pk.slice(-8)}`
-  }
-
-  // ============ STEP 8: Calculate Final Score ============
-
-  const { finalScore, trustedUpvotes, trustedDownvotes } = useMemo(() => {
+  const { finalScore, trustedUpvotes, trustedDownvotes, authorshipContributes } = useMemo(() => {
     let score = 0
     let upvotes = 0
     let downvotes = 0
 
     // Author implicit upvote (only if no explicit reaction)
     const authorHasReaction = validReactions.some((r) => r.pubkey === event?.pubkey)
-    if (event?.pubkey && !authorHasReaction && getTrustScore(event.pubkey) >= trustScoreCutoff) {
+    const authorIsTrusted = event?.pubkey && getTrustScore(event.pubkey) >= trustScoreCutoff
+    const authorship = event?.pubkey && !authorHasReaction && authorIsTrusted
+
+    if (authorship) {
       score += 1
     }
 
@@ -294,118 +265,49 @@ const ViewCuration = ({ activeUser, event, uuid, uuidType }) => {
       }
     })
 
-    return { finalScore: score, trustedUpvotes: upvotes, trustedDownvotes: downvotes }
-  }, [validReactions, event?.pubkey, trustScoreCutoff])
+    return {
+      finalScore: score,
+      trustedUpvotes: upvotes,
+      trustedDownvotes: downvotes,
+      authorshipContributes: authorship,
+    }
+  }, [validReactions, event?.pubkey, trustScoreCutoff, getTrustScore])
 
   // ============ RENDER ============
 
   // Error state for unrecognized uuidType
   if (uuidType !== 'aTag' && uuidType !== 'eventId') {
-    return (
-      <div style={{ padding: '20px' }}>
-        <CAlert color="danger">
-          Unable to search for reactions to this list item due to unrecognized uuid type:{' '}
-          {uuidType || 'undefined'}
-        </CAlert>
-      </div>
-    )
+    return <div style={{ color: '#dc3545' }}>Unrecognized uuid type</div>
   }
 
   return (
-    <div style={{ padding: '20px' }}>
-      <center>
-        <h3>List Item Curation Details</h3>
-      </center>
-
-      {/* Final Score Panel */}
-      <CCard style={{ marginBottom: '20px' }}>
-        <CCardBody>
-          <div style={{ textAlign: 'center' }}>
-            <h2 style={{ marginBottom: '10px' }}>
-              Final Score:{' '}
-              <strong style={{ color: finalScore >= 0 ? '#28a745' : '#dc3545' }}>
-                {finalScore}
-              </strong>
-            </h2>
-            <p style={{ marginBottom: '5px' }}>
-              <strong>{trustedUpvotes}</strong> upvote{trustedUpvotes !== 1 ? 's' : ''},{' '}
-              <strong>{trustedDownvotes}</strong> downvote{trustedDownvotes !== 1 ? 's' : ''} from
-              trusted users
-            </p>
-            <p style={{ color: '#666', fontSize: '14px' }}>
-              Trust Score Cutoff: <strong>{trustScoreCutoff}</strong>
-            </p>
-          </div>
-        </CCardBody>
-      </CCard>
-
-      {/* Reactions Table */}
-      <CCard>
-        <CCardBody>
-          <h5>Reactions</h5>
-          <CTable striped hover responsive>
-            <CTableHead>
-              <CTableRow>
-                <CTableHeaderCell>Author</CTableHeaderCell>
-                <CTableHeaderCell>Trust Score</CTableHeaderCell>
-                <CTableHeaderCell>Time</CTableHeaderCell>
-                <CTableHeaderCell>Reaction</CTableHeaderCell>
-              </CTableRow>
-            </CTableHead>
-            <CTableBody>
-              {/* Author row (special styling) */}
-              {event?.pubkey && (
-                <CTableRow style={{ backgroundColor: '#e7f3ff', fontWeight: 'bold' }}>
-                  <CTableDataCell title={event.pubkey}>
-                    {truncatePubkey(event.pubkey)}
-                  </CTableDataCell>
-                  <CTableDataCell>{getTrustScore(event.pubkey)}</CTableDataCell>
-                  <CTableDataCell>
-                    {event?.created_at ? getTimeAgoString(event.created_at) : '-'}
-                  </CTableDataCell>
-                  <CTableDataCell>
-                    <em>author</em>
-                  </CTableDataCell>
-                </CTableRow>
-              )}
-
-              {/* Reaction rows */}
-              {validReactions.map((reaction, index) => {
-                const reactorScore = getTrustScore(reaction.pubkey)
-                const isBelowCutoff = reactorScore < trustScoreCutoff
-                return (
-                  <CTableRow
-                    key={reaction.id || index}
-                    style={
-                      isBelowCutoff
-                        ? { opacity: 0.5, textDecoration: 'line-through', color: '#999' }
-                        : {}
-                    }
-                  >
-                    <CTableDataCell title={reaction.pubkey}>
-                      {truncatePubkey(reaction.pubkey)}
-                    </CTableDataCell>
-                    <CTableDataCell>{reactorScore}</CTableDataCell>
-                    <CTableDataCell>{getTimeAgoString(reaction.created_at)}</CTableDataCell>
-                    <CTableDataCell>{reaction.content === '+' ? '👍' : '👎'}</CTableDataCell>
-                  </CTableRow>
-                )
-              })}
-
-              {/* Empty state */}
-              {validReactions.length === 0 && (
-                <CTableRow>
-                  <CTableDataCell colSpan={4} style={{ textAlign: 'center', fontStyle: 'italic' }}>
-                    No valid reactions found.
-                  </CTableDataCell>
-                </CTableRow>
-              )}
-            </CTableBody>
-          </CTable>
-        </CCardBody>
-      </CCard>
-    </div>
+    <CRow
+      className="align-items-center justify-content-center text-center"
+      style={{ padding: '10px 0' }}
+    >
+      <CCol xs="auto">
+        <span style={{ fontSize: '14px', color: '#666' }}>
+          👍 <strong>{trustedUpvotes}</strong>
+        </span>
+      </CCol>
+      <CCol xs="auto">
+        <span style={{ fontSize: '14px', color: '#666' }}>
+          👎 <strong>{trustedDownvotes}</strong>
+        </span>
+      </CCol>
+      {authorshipContributes && (
+        <CCol xs="auto">
+          <span style={{ fontSize: '14px', color: '#28a745' }}>+1 trusted author</span>
+        </CCol>
+      )}
+      <CCol xs="auto">
+        <span style={{ fontSize: '16px', fontWeight: 'bold' }}>
+          Score:{' '}
+          <span style={{ color: finalScore >= 0 ? '#28a745' : '#dc3545' }}>{finalScore}</span>
+        </span>
+      </CCol>
+    </CRow>
   )
 }
 
-export default ViewCuration
+export default SingleItemCurationsScorePanel

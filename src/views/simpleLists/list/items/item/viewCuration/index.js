@@ -1,15 +1,19 @@
 import React from 'react'
+import { useActiveUser } from 'nostr-hooks'
 import { useLocation } from 'react-router-dom'
 import { validateUUID } from 'src/lib/nip19'
 import NaddrUUID from './naddr'
 import EventIdUUID from './eventId'
 import ATagUUID from './aTag'
 
-const Disambiguation = ({ uuidType, uuid }) => {
+const Disambiguation = ({ activeUser, uuidType, uuid }) => {
   if (uuidType === 'invalid') return <p>Invalid UUID</p>
-  if (uuidType === 'naddr') return <NaddrUUID uuid={uuid} uuidType={uuidType} />
-  if (uuidType === 'aTag') return <ATagUUID uuid={uuid} uuidType={uuidType} />
-  if (uuidType === 'eventId') return <EventIdUUID uuid={uuid} uuidType={uuidType} />
+  if (uuidType === 'naddr')
+    return <NaddrUUID activeUser={activeUser} uuid={uuid} uuidType={uuidType} />
+  if (uuidType === 'aTag')
+    return <ATagUUID activeUser={activeUser} uuid={uuid} uuidType={uuidType} />
+  if (uuidType === 'eventId')
+    return <EventIdUUID activeUser={activeUser} uuid={uuid} uuidType={uuidType} />
   return <p>Unknown UUID Type: {uuidType}</p>
 }
 
@@ -17,6 +21,7 @@ const ViewCuration = () => {
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
   const uuid = searchParams.get('uuid')
+  const { activeUser } = useActiveUser()
 
   let validateUUIDResult = { uuidType: 'unknown', valid: false, error: 'unknown error' }
 
@@ -37,10 +42,18 @@ const ViewCuration = () => {
     }
   }
 
+  if (!activeUser) {
+    return <p>Loading the logged-in user...</p>
+  }
+
   return (
     <>
       <div>
-        <Disambiguation uuidType={validateUUIDResult.uuidType} uuid={validateUUIDResult.uuid} />
+        <Disambiguation
+          activeUser={activeUser}
+          uuidType={validateUUIDResult.uuidType}
+          uuid={validateUUIDResult.uuid}
+        />
       </div>
     </>
   )
