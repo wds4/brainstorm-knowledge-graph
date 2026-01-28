@@ -17,7 +17,7 @@ import {
   CTableDataCell,
 } from '@coreui/react'
 import ProfileCard from 'src/components/users/profileCard.js'
-import AuthorAvatar from '../../../../components/users/authorAvatar'
+import AuthorAvatar from 'src/components/users/authorAvatar'
 
 const aDListRelays = JSON.parse(sessionStorage.getItem('aDListRelays') || '[]')
 
@@ -35,6 +35,31 @@ const parseName = (tags) => {
 const parseDTag = (tags) => {
   const aDTags = tags.filter((tag) => tag[0] === 'd')[0]
   return aDTags ? aDTags[1] : ''
+}
+
+const NextRow = ({ activeUser, event, author, name, uuid }) => {
+  return (
+    <CTableRow key={event.id}>
+      <CTableDataCell style={{ width: '10%' }}>
+        <AuthorAvatar author={author} />
+      </CTableDataCell>
+      <CTableDataCell style={{ width: '50%', wordBreak: 'break-all', overflowWrap: 'anywhere' }}>
+        {name}
+      </CTableDataCell>
+      <CTableDataCell style={{ width: '10%' }}>👍</CTableDataCell>
+      <CTableDataCell style={{ width: '10%' }}>👎</CTableDataCell>
+      <CTableDataCell style={{ width: '10%' }}>total</CTableDataCell>
+      <CTableDataCell style={{ width: '10%' }}>
+        <CButton
+          color="primary"
+          size="sm"
+          href={`#/simpleLists/list/items/item/viewItem?uuid=${uuid}`}
+        >
+          View
+        </CButton>
+      </CTableDataCell>
+    </CTableRow>
+  )
 }
 
 const TableOfItems = ({ activeUser, zTag = '' }) => {
@@ -94,9 +119,10 @@ const TableOfItems = ({ activeUser, zTag = '' }) => {
         <CTableHead>
           <CTableRow>
             <CTableHeaderCell style={{ width: '10%' }}>Author</CTableHeaderCell>
-            <CTableHeaderCell style={{ width: '25%' }}>Name</CTableHeaderCell>
-            <CTableHeaderCell style={{ width: '45%' }}>Description</CTableHeaderCell>
-            <CTableHeaderCell style={{ width: '10%' }}>Kind</CTableHeaderCell>
+            <CTableHeaderCell style={{ width: '50%' }}>Item Name</CTableHeaderCell>
+            <CTableHeaderCell style={{ width: '10%' }}>trusted 👍</CTableHeaderCell>
+            <CTableHeaderCell style={{ width: '10%' }}>trusted 👎</CTableHeaderCell>
+            <CTableHeaderCell style={{ width: '10%' }}>Total</CTableHeaderCell>
             <CTableHeaderCell style={{ width: '10%' }}>Action</CTableHeaderCell>
           </CTableRow>
         </CTableHead>
@@ -115,31 +141,14 @@ const TableOfItems = ({ activeUser, zTag = '' }) => {
               uuid = event.id
             }
             return (
-              <CTableRow key={event.id}>
-                <CTableDataCell style={{ width: '10%' }}>
-                  <AuthorAvatar author={author} />
-                </CTableDataCell>
-                <CTableDataCell
-                  style={{ width: '25%', wordBreak: 'break-all', overflowWrap: 'anywhere' }}
-                >
-                  {name}
-                </CTableDataCell>
-                <CTableDataCell
-                  style={{ width: '45%', wordBreak: 'break-all', overflowWrap: 'anywhere' }}
-                >
-                  {description}
-                </CTableDataCell>
-                <CTableDataCell style={{ width: '10%' }}>{kind}</CTableDataCell>
-                <CTableDataCell style={{ width: '10%' }}>
-                  <CButton
-                    color="primary"
-                    size="sm"
-                    href={`#/simpleLists/list/items/item/viewItem?uuid=${uuid}`}
-                  >
-                    View
-                  </CButton>
-                </CTableDataCell>
-              </CTableRow>
+              <NextRow
+                key={event.id}
+                activeUser={activeUser}
+                event={event}
+                author={author}
+                name={name}
+                uuid={uuid}
+              />
             )
           })}
         </CTableBody>

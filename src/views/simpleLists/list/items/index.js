@@ -4,12 +4,13 @@ import ATagUUID from './aTag'
 import EventIdUUID from './eventId'
 import NaddrUUID from './naddr'
 import { validateUUID } from 'src/lib/nip19'
+import { useActiveUser } from 'nostr-hooks'
 
-const Disambiguation = ({ uuidType, uuid }) => {
+const Disambiguation = ({ activeUser, uuidType, uuid }) => {
   if (uuidType === 'invalid') return <p>Invalid UUID</p>
-  if (uuidType === 'naddr') return <NaddrUUID uuid={uuid} />
-  if (uuidType === 'aTag') return <ATagUUID uuid={uuid} />
-  if (uuidType === 'eventId') return <EventIdUUID uuid={uuid} />
+  if (uuidType === 'naddr') return <NaddrUUID activeUser={activeUser} uuid={uuid} />
+  if (uuidType === 'aTag') return <ATagUUID activeUser={activeUser} uuid={uuid} />
+  if (uuidType === 'eventId') return <EventIdUUID activeUser={activeUser} uuid={uuid} />
   return <p>Unknown UUID Type: {uuidType}</p>
 }
 
@@ -17,6 +18,7 @@ const ViewItems = () => {
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
   const uuid = searchParams.get('uuid')
+  const { activeUser } = useActiveUser()
 
   let validateUUIDResult = { uuidType: 'unknown', valid: false, error: 'unknown error' }
 
@@ -37,10 +39,18 @@ const ViewItems = () => {
     }
   }
 
+  if (!activeUser) {
+    return <p>Loading the logged-in user...</p>
+  }
+
   return (
     <>
       <div>
-        <Disambiguation uuidType={validateUUIDResult.uuidType} uuid={validateUUIDResult.uuid} />
+        <Disambiguation
+          activeUser={activeUser}
+          uuidType={validateUUIDResult.uuidType}
+          uuid={validateUUIDResult.uuid}
+        />
       </div>
     </>
   )

@@ -1,13 +1,56 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
+import ATagUUID from './aTag'
+import EventIdUUID from './eventId'
+import NaddrUUID from './naddr'
+import { validateUUID } from 'src/lib/nip19'
+import { useActiveUser } from 'nostr-hooks'
+
+const Disambiguation = ({ activeUser, uuidType, uuid }) => {
+  if (uuidType === 'invalid') return <p>Invalid UUID</p>
+  if (uuidType === 'naddr') return <NaddrUUID activeUser={activeUser} uuid={uuid} />
+  if (uuidType === 'aTag') return <ATagUUID activeUser={activeUser} uuid={uuid} />
+  if (uuidType === 'eventId') return <EventIdUUID activeUser={activeUser} uuid={uuid} />
+  return <p>Unknown UUID Type: {uuidType}</p>
+}
 
 const ViewCuration = () => {
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search)
+  const uuid = searchParams.get('uuid')
+  const { activeUser } = useActiveUser()
+
+  let validateUUIDResult = { uuidType: 'unknown', valid: false, error: 'unknown error' }
+
+  if (uuid) {
+    validateUUIDResult = validateUUID(uuid)
+
+    if (validateUUIDResult.valid) {
+      // update SessionStorage with listHeaderUUID
+      sessionStorage.setItem('listHeaderUUID', uuid)
+    }
+  }
+
+  if (!uuid) {
+    // fetch listHeaderUUID from SessionStorage
+    const listHeaderUUID = sessionStorage.getItem('listHeaderUUID')
+    if (listHeaderUUID) {
+      validateUUIDResult = validateUUID(listHeaderUUID)
+    }
+  }
+
+  if (!activeUser) {
+    return <p>Loading the logged-in user...</p>
+  }
+
   return (
     <>
-      <center>
-        <h3>View Curation of this list</h3>
-      </center>
       <div>
-        <p>Lorem ipsum</p>
+        <Disambiguation
+          activeUser={activeUser}
+          uuidType={validateUUIDResult.uuidType}
+          uuid={validateUUIDResult.uuid}
+        />
       </div>
     </>
   )
