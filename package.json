@@ -33,6 +33,7 @@
     "chart.js": "^4.4.4",
     "classnames": "^2.5.1",
     "core-js": "^3.38.1",
+    "neo4j-driver": "^6.0.1",
     "nostr-hooks": "^2.9.11",
     "nostr-tools": "^2.7.2",
     "prop-types": "^15.8.1",

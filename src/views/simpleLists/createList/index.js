@@ -502,7 +502,6 @@ const CreateList = () => {
               <CCardTitle>Raw Event Preview</CCardTitle>
               <pre
                 style={{
-                  backgroundColor: '#f8f9fa',
                   padding: '15px',
                   borderRadius: '5px',
                   overflow: 'auto',
