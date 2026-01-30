@@ -60,7 +60,7 @@ const TestPageBody = () => {
         <div style={{ marginBottom: '20px' }}>
           <p>
             <strong>Endpoint:</strong>{' '}
-            http://straycat.brainstorm.social:7474/db/data/transaction/commit
+            https://straycat.brainstorm.social:7474/db/data/transaction/commit
           </p>
           <p>
             <strong>Test Query:</strong> MATCH (n) RETURN n LIMIT 5
