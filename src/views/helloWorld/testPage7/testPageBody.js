@@ -58,6 +58,24 @@ const TestPageBody = () => {
 
       const result = await session.run(query)
 
+      /*
+      const records = result.records.map((record) => {
+        const obj = {}
+        record.keys.forEach((key) => {
+          obj[key] = record.get(key)
+        })
+        return obj
+      })
+      */
+
+      /*
+      const records = result.records.map((record) => {
+        return {
+          node: record.get('foo'),
+        }
+      })
+      */
+
       const records = result.records.map((record) => {
         return {
           node: record
