@@ -60,7 +60,7 @@ const TestPageBody = () => {
 
       const records = result.records.map((record) => {
         return {
-          node: record.recordCount,
+          node: record
         }
       })
 
