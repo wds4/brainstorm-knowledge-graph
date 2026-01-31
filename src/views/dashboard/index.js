@@ -40,7 +40,27 @@ const Dashboard = () => {
                   <strong>Simple Lists</strong>
                 </CCardHeader>
                 <CCardBody>
-                  <CCardText>Lorem ipsum!</CCardText>
+                  <CCardText>Basic implementation of the Decentralized Lists NIP</CCardText>
+                </CCardBody>
+              </CNavLink>
+            </CCard>
+          </CCol>
+
+          <CCol xs={12} sm={6} xl={4} xxl={3}>
+            <CCard
+              style={{ width: '100%', height: '100%' }}
+              className="mb-3 border-info"
+              textColor="info"
+            >
+              <CNavLink style={{ display: 'inline-block' }} href="#/concepts">
+                <CCardHeader>
+                  <strong>Concepts</strong>
+                </CCardHeader>
+                <CCardBody>
+                  <CCardText>
+                    Concept: a simple list imbued with a structure (organized into subsets) and a
+                    property tree.
+                  </CCardText>
                 </CCardBody>
               </CNavLink>
             </CCard>

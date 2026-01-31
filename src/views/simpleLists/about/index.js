@@ -4,10 +4,14 @@ const AboutApp = () => {
   return (
     <>
       <center>
-        <h3>About This App</h3>
+        <h3>About Simple Lists</h3>
       </center>
       <div>
-        <p>Lorem ipsum</p>
+        <p>
+          A <i>simple list</i> is a list of items that is neither <i>structured</i> (organized into
+          subsets) nor
+          <i>object oriented</i> (imbued with propeties).
+        </p>
       </div>
     </>
   )

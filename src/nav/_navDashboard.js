@@ -20,6 +20,11 @@ const _nav = [
       },
       {
         component: CNavItem,
+        name: 'Concepts',
+        to: '/concepts',
+      },
+      {
+        component: CNavItem,
         name: 'App 2',
         to: '/app2',
       },

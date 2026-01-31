@@ -23,6 +23,7 @@ import navigationApp1 from 'src/nav/_navApp1'
 import navigationApp1_list from 'src/nav/_navApp1_list'
 import navigationApp1_list_item from 'src/nav/_navApp1_list_item'
 import navigationApp1_list_curation from 'src/nav/_navApp1_list_curation'
+import navigationConcepts from 'src/nav/_navConcepts'
 import navigationApp2 from 'src/nav/_navApp2'
 import navigationApp3 from 'src/nav/_navApp3'
 
@@ -57,6 +58,8 @@ function getNavigation(currentLocation) {
       } else {
         return navigationApp1
       }
+    case 'concepts':
+      return navigationConcepts
     case 'app2':
       return navigationApp2
     case 'app3':
