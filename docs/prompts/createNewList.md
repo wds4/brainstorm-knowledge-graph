@@ -29,7 +29,7 @@ The user will have two options: automatically generated d tag (default), or cust
 
 Replaceable (addressable) events are addressed using the event kind, the author pubkey, and the d tag. You therefore must select a unique d tag; otherwise you will overwrite any prior events with matching address. They can be human readable (my-cool-da-tag) or not (e.g. the string can be a hash have the appearance of random characters.) Spaces are not allowed. 
 
-An automatically generated d tag will be generated in the following method::
+An automatically generated d tag will be generated in the following method:
 
 1. concatenate the three text entry fields (name singular, name plural, description) with the timestamp.
 2. Create a signature of the concatenated string using the logged-in user.
@@ -56,7 +56,7 @@ The first selector will determine the constraintType and have these options: req
 
 The second selector will determine the listItemTagName. The user will see these options: custom, p (pubkey), e (event id), a (aTag or naddr), t (text/hashtag). If custom is selected (which will be the default), the user will see a field with `custom tag name` as the placeholder. If any of the other 4 options is selected, the listItemTagName will be single character, either p, e, a, or t.
 
-There will be a preview of the constraint tags in 
+There will be a preview of the constraint tags localted below the add tag button.
 
 ### Control Buttons
 
