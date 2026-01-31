@@ -5,7 +5,7 @@ const aDListRelays = JSON.parse(sessionStorage.getItem('aDListRelays') || '[]')
 
 const NumItemsOnList = ({ zTag = '' }) => {
   // Create filter based on zTag parameter
-  const filter = zTag ? [{ kinds: [9999, 39999], '#z': [zTag] }] : []
+  const filter = zTag ? [{ kinds: [9999, 39999], '#z': [zTag], limit: 101 }] : []
 
   const filters = useMemo(() => filter, [])
   const { events } = useSubscribe({ filters, relays: aDListRelays })
@@ -15,6 +15,9 @@ const NumItemsOnList = ({ zTag = '' }) => {
   }
   if (events.length === 0) {
     return <>0</>
+  }
+  if (events.length > 100) {
+    return <>100+</>
   }
   return <>{events.length}</>
 }

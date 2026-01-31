@@ -8,9 +8,7 @@ const TestPageBody = () => {
         <h3>Test Page Body</h3>
       </center>
       <div>
-        <p>
-          Lorem ipsum
-        </p>
+        <p>Lorem ipsum</p>
       </div>
     </>
   )

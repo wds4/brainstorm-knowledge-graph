@@ -128,7 +128,6 @@ const ListsTable = () => {
             {showMyListsOnly ? 'My Lists' : 'All Authors'}
           </CButton>
         )}
-
         {/* Search Field */}
         <div style={{ marginBottom: '15px', marginTop: '10px' }}>
           <CFormLabel htmlFor="searchKeyword" style={{ marginBottom: '10px', fontWeight: 'bold' }}>
@@ -143,7 +142,6 @@ const ListsTable = () => {
             style={{ maxWidth: '400px' }}
           />
         </div>
-
         <p>number of events: {filteredEvents.length}</p>
         <CTable striped hover style={{ width: '100%', tableLayout: 'fixed' }}>
           <CTableHead>
