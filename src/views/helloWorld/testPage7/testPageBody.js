@@ -19,7 +19,7 @@ const TestPageBody = () => {
   aUsernameOptions[0] = 'neo4j'
   aPasswordOptions[0] = 'nosfabricaadminpassword505freedom'
 
-  aUriOptions[1] = 'bolt://straycat.brainstorm.social:7687'
+  aUriOptions[1] = 'bolt+s://straycat.brainstorm.social:7687'
   aUsernameOptions[1] = 'neo4j'
   aPasswordOptions[1] = 'neo4jneo4j'
 
